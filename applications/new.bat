@@ -18,7 +18,6 @@ rmdir /s /q .git
 del README.md
 del LICENSE
 
-attrib +h .scripts
 attrib +h .vscode
 
 mkdir include
