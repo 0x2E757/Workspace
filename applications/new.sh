@@ -9,16 +9,20 @@ if [ -d "$projectName" ]; then
     exit 1
 fi
 
-git init "$projectName" -b master --quiet
+git clone ../template "$projectName" --quiet
 cd "$projectName"
-git pull ../../template --quiet
+
+rm -rf .git
+rm README.md
 rm LICENSE
+
 mkdir include
 
 sed -i "s/template/$projectName/g" CMakeLists.txt
-commitMessage="Updated project name in CMakeLists.txt"
+
+git init --quiet
 git add .
-git commit -m "$commitMessage" --quiet 2> /dev/null || git -c user.name="Eric" -c user.email="0x2E757@gmail.com" commit -m "$commitMessage" --quiet
+git commit -m "Initial commit" --quiet 2> /dev/null || git -c user.name="Eric" -c user.email="0x2E757@gmail.com" commit -m "Initial commit" --quiet
 
 echo Done!
 exit 0

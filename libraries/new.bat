@@ -11,18 +11,23 @@ if exist "!projectName!" (
 	exit /b 1
 )
 
-git init "!projectName!" --quiet
+git clone ..\template "!projectName!" --quiet
 cd "!projectName!"
-git pull ..\..\template --quiet
+
+rmdir /s /q .git
+del README.md
 del LICENSE
-mkdir include
+
 attrib +h .scripts
 attrib +h .vscode
 
+mkdir include
+
 powershell -Command "(gc CMakeLists.txt) -replace 'template', '!projectName!' | Out-File -encoding UTF8 CMakeLists.txt"
-set "commitMessage=Updated project name in CMakeLists.txt"
+
+git init --quiet
 git add .
-git commit -m "!commitMessage!" --quiet 2> nul || git -c user.name="Eric" -c user.email="0x2E757@gmail.com" commit -m "!commitMessage!" --quiet
+git commit -m "Initial commit" --quiet 2> nul || git -c user.name="Eric" -c user.email="0x2E757@gmail.com" commit -m "Initial commit" --quiet
 
 echo Done!
 exit /b 0
